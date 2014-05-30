@@ -13,11 +13,11 @@ trait TNat extends Reducible[TNat] {
 trait Zero extends TNat {
   override type If[T, Z <: T, S[_ <: TNat] <: T] = Z
   override type Reduce[TOut, F[_[_ <: TNat] <: TOut, _ <: TNat] <: TOut] =
-  F[Nothing, Zero]
+  F[({type R[N <: TNat] = FixImpl#Fix[TNat, TOut, F, N]})#R, Zero]
 }
 
 trait Succ[Pred <: TNat] extends TNat {
   override type If[T, Z <: T, S[_ <: TNat] <: T] = S[Pred]
   override type Reduce[TOut, F[_[_ <: TNat] <: TOut, _ <: TNat] <: TOut] =
-  F[Nothing, Pred]
+  F[({type R[N <: TNat] = FixImpl#Fix[TNat, TOut, F, N]})#R, Succ[Pred]]
 }

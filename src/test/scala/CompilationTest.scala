@@ -18,4 +18,10 @@ class CompilationTest {
   })#R, N]
 
   implicitly[VNil.type =:= Vec[Zero, Nothing]]
+
+  implicitly[Cons[String, VNil.type] =:= Vec[Succ[Zero], String]]
+
+  implicitly[Cons[Nothing, Cons[Nothing, VNil.type]] =:= Vec[Succ[Succ[Zero]], Nothing]]
+
+  implicitly[Cons[Any, Cons[Any, Cons[Any, VNil.type]]] =:= Vec[Succ[Succ[Succ[Zero]]], Any]]
 }
