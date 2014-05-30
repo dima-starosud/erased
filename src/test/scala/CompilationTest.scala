@@ -17,5 +17,5 @@ class CompilationTest {
     N#If[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
   })#R, N]
 
-  //implicitly[VNil.type =:= Vec[Zero, Nothing]]
+  implicitly[VNil.type =:= Vec[Zero, Nothing]]
 }
