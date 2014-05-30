@@ -1,4 +1,4 @@
 erased
 ======
 
-Scala type level utilities which anyway will be erased during compilation
+Scala type level utilities which anyway will be erased during compilation :-D
