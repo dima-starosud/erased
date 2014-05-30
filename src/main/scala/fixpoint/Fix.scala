@@ -4,21 +4,20 @@ package fixpoint
  * @author Dmytro Starosud <d.starosud@gmail.com>
  */
 
-trait ReducibleDecl {
-    type Reduce[TIn <: ReducibleDecl, TOut, F[_ <: Func[TIn, TOut]] <: Func[TIn, TOut]] <: Func[TIn, TOut]
+trait Reducible {
+  type Reduce[TIn <: Reducible, TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, _ <: TIn] <: TOut
 }
 
-trait Reducible extends ReducibleDecl {
-    override type Reduce[TIn <: ReducibleDecl, TOut, F[_ <: Func[TIn, TOut]] <: Func[TIn, TOut]] =
-    Fix[TIn, TOut, F]
+trait ReducibleImpl extends Reducible {
+  override type Reduce[TIn <: Reducible, TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, In <: TIn] =
+  FixImpl#Fix[TIn, TOut, F, In]
 }
 
-trait FixDecl {
-    type Fix[TIn <: ReducibleDecl, TOut, F[_ <: Func[TIn, TOut]] <: Func[TIn, TOut]] <: Func[TIn, TOut]
+trait Fix {
+  type Fix[TIn <: Reducible, TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, _ <: TIn] <: TOut
 }
 
-trait FixImpl extends FixDecl {
-    override type Fix[TIn <: ReducibleDecl, TOut, F[_ <: Func[TIn, TOut]] <: Func[TIn, TOut]] = Func[TIn, TOut] {
-        type Apply[In <: TIn] = In#Reduce[TIn, TOut, F]#Apply[In]
-    }
+trait FixImpl extends Fix {
+  override type Fix[TIn <: Reducible, TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, In <: TIn] =
+  In#Reduce[TIn, TOut, F, In]
 }
