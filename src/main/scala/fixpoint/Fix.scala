@@ -8,6 +8,11 @@ trait Reducible[TIn <: Reducible[TIn]] {
   type Reduce[TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut] <: TOut
 }
 
+trait ReducibleImpl[TIn <: Reducible[TIn], This <: TIn] extends Reducible[TIn] {
+  override type Reduce[TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut] =
+    F[({type R[In <: TIn] = FixImpl#Fix[TIn, TOut, F, In]})#R, This]
+}
+
 trait Fix {
   type Fix[TIn <: Reducible[TIn], TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, _ <: TIn] <: TOut
 }
