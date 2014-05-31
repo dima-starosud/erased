@@ -43,7 +43,7 @@ During the computation (reduction) there is always the main object doing the job
 3. Make type level type (like `TNat` in samples above) extending `Reducible` (see `nat/TNat.scala`), that is it's "reducible" but abstract, so cannot "reduce";
 4. Make all the "instances" of that type level type (like `Zero` and `Succ`) extending `ReducibleImpl`.
 
-That's it. When we have some type level term involving `Reducible` (but not `ReducibleImpl`) we do nothing, because `Reduce` type is abstract. But as soon as we are passed concrete types extending `ReducibleImpl` (where `Reduce` is able to do the job) computation is starting. And is stopped again when there is no more `ReducibleImpl` to proceed.
+That's it. When we have some type level function accepting `Reducible` (but not `ReducibleImpl`) we do nothing, because `Reduce` type is abstract. But as soon as this function is passed concrete type extending `ReducibleImpl` (where `Reduce` is able to do the job) computation is starting. And is stopped again when there is no more `ReducibleImpl` to proceed.
 
 So the rule is "make reduction step, when your main object is able to do its own job".
 
