@@ -45,4 +45,8 @@ During the computation (reduction) there is always the main object doing the job
 
 That's it. When we have some type level term involving `Reducible` (but not `ReducibleImpl`) we do nothing, because `Reduce` type is abstract. But as soon as we are passed concrete types extending `ReducibleImpl` (where `Reduce` is able to do the job) computation is starting. And is stopped again when there is no more `ReducibleImpl` to proceed.
 
-So the rule is "make reduction step, when your main object is able do its own job".
+So the rule is "make reduction step, when your main object is able to do its own job".
+
+### Warning
+
+This API still doesn't stop defining infinite loop. So the developer have to make sure his function will terminate.
