@@ -1,4 +1,4 @@
-import fixpoint._
+import fix._
 import nat._
 
 /**

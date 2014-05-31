@@ -1,6 +1,6 @@
 package nat
 
-import fixpoint._
+import fix._
 
 /**
  * @author Dmytro Starosud <d.starosud@gmail.com>
