@@ -13,6 +13,7 @@ In Scala there are some restrictions applied to type level functions. Everyone c
 trait Vector[+T]
 case object VNil extends Vector[Nothing]
 case class Cons[+H, +T <: Vector[H]](h: H, t: T) extends Vector[H]
+
 type Vec[N <: TNat, T] = N#If[Vector[T], VNil.type, ({type F[M <: TNat] = Cons[T, Vec[M, T]]})#F]
 // illegal cyclic reference involving type Vec
 ```
