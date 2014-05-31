@@ -10,9 +10,10 @@ Scala type level utilities which anyway will be erased during compilation :-D
 In Scala there are some restrictions applied to type level functions. Everyone could have seen `illegal cyclic reference` error defining recursive type:
 
 ```scala
-case object VNil
-case class Cons[+H, +T](h: H, t: T)
-type Vec[N <: TNat, T] = N#If[VNil.type, ({type F[M <: TNat] = Cons[T, Vec[M, T]]})#F]
+trait Vector[+T]
+case object VNil extends Vector[Nothing]
+case class Cons[+H, +T <: Vector[H]](h: H, t: T) extends Vector[H]
+type Vec[N <: TNat, T] = N#If[Vector[T], VNil.type, ({type F[M <: TNat] = Cons[T, Vec[M, T]]})#F]
 // illegal cyclic reference involving type Vec
 ```
 
