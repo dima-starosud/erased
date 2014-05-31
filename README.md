@@ -1,11 +1,9 @@
-erased
-======
+# erased
 
 Scala type level utilities which anyway will be erased during compilation :-D
 
 
-Type level fix point combinator
--------------------------------
+## Type level fix point combinator
 
 In Scala there are some restrictions applied to type level functions. Everyone could have seen `illegal cyclic reference` error defining recursive type:
 
@@ -33,3 +31,7 @@ FixImpl#Fix :: forall a b. (a -> b, a) -> b
 ```
 
 That is it's uncurried.
+
+### How it works
+
+to be written...
