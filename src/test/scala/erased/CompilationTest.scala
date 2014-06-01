@@ -1,9 +1,12 @@
+package erased
+
 import fix._
 import nat._
 
 /**
  * @author Dmytro Starosud <d.starosud@gmail.com>
  */
+
 class CompilationTest {
   trait Vector[+H]
   case object VNil extends Vector[Nothing]

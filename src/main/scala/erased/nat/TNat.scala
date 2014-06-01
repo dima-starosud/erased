@@ -1,3 +1,4 @@
+package erased
 package nat
 
 import fix._
