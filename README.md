@@ -14,7 +14,7 @@ trait Vector[+T]
 case object VNil extends Vector[Nothing]
 case class Cons[+H, +T <: Vector[H]](h: H, t: T) extends Vector[H]
 
-type Vec[N <: TNat, T] = N#If[Vector[T], VNil.type, ({type F[M <: TNat] = Cons[T, Vec[M, T]]})#F]
+type Vec[N <: TNat, T] = N#Match[Vector[T], VNil.type, ({type F[M <: TNat] = Cons[T, Vec[M, T]]})#F]
 // illegal cyclic reference involving type Vec
 ```
 
@@ -29,7 +29,7 @@ type Fix[TIn <: Reducible, TOut, F[_[_ <: TIn] <: TOut, _ <: TIn] <: TOut, _ <: 
 
 type Vec[N <: TNat, T] = Fix[TNat, Vector[T], ({
   type R[F[_ <: TNat] <: Vector[T], N <: TNat] =
-    N#If[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
+    N#Match[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
   })#R, N]
 // no illegal cyclic reference
 ```

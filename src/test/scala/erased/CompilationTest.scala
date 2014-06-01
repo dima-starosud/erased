@@ -14,7 +14,7 @@ class CompilationTest {
 
   type Vec[N <: TNat, T] = Fix[TNat, Vector[T], ({
     type R[F[_ <: TNat] <: Vector[T], N <: TNat] =
-      N#If[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
+      N#Match[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
     })#R, N]
 
   implicitly[VNil.type =:= Vec[Zero, Nothing]]
