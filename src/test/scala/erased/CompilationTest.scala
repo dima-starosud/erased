@@ -12,13 +12,16 @@ class CompilationTest {
   case object VNil extends Vector[Nothing]
   case class Cons[+H, +T <: Vector[H]](h: H, t: T) extends Vector[H]
 
-  type Vec[N <: TNat, T] = Fix[TNat, Vector[T], ({
-    type R[F[_ <: TNat] <: Vector[T], N <: TNat] =
-      N#Match[Vector[T], VNil.type, ({type R[N <: TNat] = Cons[T, F[N]]})#R]
-    })#R, N]
+  type Vec[N <: TNat, H] = Iterate[N, Vector[H], VNil.type, ({
+    type R[T <: Vector[H]] = Cons[H, T]
+  })#R]
+
+  type One = Succ[Zero]
+  type Two = Succ[One]
+  type Three = Succ[Two]
 
   implicitly[VNil.type =:= Vec[Zero, Nothing]]
-  implicitly[Cons[String, VNil.type] =:= Vec[Succ[Zero], String]]
-  implicitly[Cons[Nothing, Cons[Nothing, VNil.type]] =:= Vec[Succ[Succ[Zero]], Nothing]]
-  implicitly[Cons[Any, Cons[Any, Cons[Any, VNil.type]]] =:= Vec[Succ[Succ[Succ[Zero]]], Any]]
+  implicitly[Cons[String, VNil.type] =:= Vec[One, String]]
+  implicitly[Cons[Nothing, Cons[Nothing, VNil.type]] =:= Vec[Two, Nothing]]
+  implicitly[Cons[Any, Cons[Any, Cons[Any, VNil.type]]] =:= Vec[Three, Any]]
 }
