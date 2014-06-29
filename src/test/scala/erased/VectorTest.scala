@@ -3,11 +3,14 @@ package erased
 import fix._
 import nat._
 
+import org.junit.Assert._
+import org.junit.Test
+
 /**
  * @author Dmytro Starosud <d.starosud@gmail.com>
  */
 
-object CompilationTest {
+object VectorTest {
   sealed trait Vector[+A] {
     def ::[H >: A](h: H): Cons[H, this.type] = Cons(h, this)
     def toList: List[A]
@@ -23,8 +26,9 @@ object CompilationTest {
   }
 }
 
-class CompilationTest {
-  import CompilationTest._
+@Test
+class VectorTest {
+  import VectorTest._
 
   type Vec[N <: TNat, T] = Iterate[N, Vector[T], VNil.type,
     ({type S[V <: Vector[T]] = Cons[T, V]})#S]
@@ -52,4 +56,12 @@ class CompilationTest {
   implicitly[Cons[String, VNil.type] =:= Vec[One, String]]
   implicitly[Cons[Nothing, Cons[Nothing, VNil.type]] =:= Vec[Two, Nothing]]
   implicitly[Cons[Any, Cons[Any, Cons[Any, VNil.type]]] =:= Vec[Three, Any]]
+
+  @Test
+  def simpleTest() {
+    val n = Nat(3)
+    assertEquals(Vec(n)(List(1, 2)), None)
+    assertEquals(Vec(n)(List(1, 2, 3)), Some(1 :: 2 :: 3 :: VNil))
+    assertEquals(Vec(n)(List(1, 2, 3, 4)), None)
+  }
 }
